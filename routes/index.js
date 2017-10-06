@@ -2,10 +2,10 @@ var models  = require('../models');
 var express = require('express');
 var router  = express.Router();
 
-router.get('/', function(req, res) {
+router.get('/', (req, res) => {
   models.User.findAll({
     include: [ models.Alumn ]
-  }).then(function(users) {
+  }).then(users => {
     res.render('index', {
       title: 'Sequelize: Express Example',
       users: users

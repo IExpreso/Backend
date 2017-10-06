@@ -15,7 +15,6 @@
     "mysql": "^2.14.1",
     "sequelize": "^2.0.0-rc1",
     "sequelize-cli": "^3.0.0",
-    "sequelize-fixtures": "^0.6.0",
     "serve-favicon": "~2.4.5",
     "sqlite3": "^3.1.13"
   }
