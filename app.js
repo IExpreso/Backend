@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
@@ -9,6 +11,7 @@ const jwt = require('jsonwebtoken');
 const index = require('./routes/index');
 const users = require('./routes/users');
 const login = require('./routes/login');
+const signup = require('./routes/signup');
 
 const app = express();
 
@@ -26,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', index);
 app.use('/api/login', login);
+app.use('/api/signup', signup);
 
 app.all('/api/:token/*', (req, res, next) => {
   let token = req.params.token;

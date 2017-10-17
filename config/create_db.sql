@@ -6,7 +6,7 @@ CREATE DATABASE IF NOT EXISTS iexpresso_test;
 CREATE DATABASE IF NOT EXISTS iexpresso_production;
 CREATE DATABASE IF NOT EXISTS iexpresso_development;
 
-CREATE TABLE IF NOT EXISTS `Users` (`email` VARCHAR(255) , `password` VARCHAR(255) NOT NULL, `createdAt` DATETIME DEFAULT now(), `updatedAt` DATETIME DEFAULT now(), PRIMARY KEY (`email`)) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS `Users` (`email` VARCHAR(255) , `password` VARCHAR(255) NOT NULL, `resetPasswordToken` VARCHAR(255), `resetPasswordExpires` VARCHAR(255), `createdAt` DATETIME DEFAULT now(), `updatedAt` DATETIME DEFAULT now(), PRIMARY KEY (`email`)) ENGINE=InnoDB;
 CREATE TABLE IF NOT EXISTS `Alumns` (`id` VARCHAR(255) , `name` VARCHAR(255) NOT NULL, `startDate` DATETIME NOT NULL, `endDate` DATETIME NOT NULL, `createdAt` DATETIME DEFAULT now(), `updatedAt` DATETIME DEFAULT now(), `UserEmail` VARCHAR(255), PRIMARY KEY (`id`), FOREIGN KEY (`UserEmail`) REFERENCES `Users` (`email`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
 
 -- Create alumns for development

@@ -12,7 +12,6 @@ const bcrypt = require('bcrypt');
 
 const env = process.env.NODE_ENV || 'development';
 
-const bcrypt = require('bcrypt');
 const SALT_FACTOR = 5;
 let hashPassword = new Promise((password) => {
   bcrypt.genSalt(SALT_FACTOR, (err, salt) => {
@@ -32,8 +31,8 @@ module.exports = function(sequelize, DataTypes) {
       isEmail: {msg: 'Reason'}
     }},
     password: {type: DataTypes.STRING, allowNull: false},
-    resetPasswordToken: { type. DataTypes.STRING },
-    resetPasswordExpires: { type DataTypes.STRING },
+    resetPasswordToken: { type: DataTypes.STRING },
+    resetPasswordExpires: { type: DataTypes.STRING },
     createdAt: {type: DataTypes.DATE, defaultValue: sequelize.fn('now')},
     updatedAt: {type: DataTypes.DATE, defaultValue: sequelize.fn('now')}
   });

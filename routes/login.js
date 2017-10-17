@@ -21,7 +21,7 @@ router.post('/', (req, res) => {
         user: user.email
       });
     } else {
-      return res.status(401).json({ error: 'invalid password' }):
+      return res.status(401).json({ error: 'invalid password' });
     }
   }).catch(err => {
     return res.status(500).json({ error: err });
