@@ -1,5 +1,6 @@
 'use strinct';
 
+<<<<<<< HEAD
 const models  = require('../models');
 const express = require('express');
 const router  = express.Router();
@@ -25,6 +26,8 @@ let hashPassword = new Promise((password) => {
   });
 });
 
+=======
+>>>>>>> working
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define("User", {
     email: {type: DataTypes.STRING, primaryKey: true, validate: {
