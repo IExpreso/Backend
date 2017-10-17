@@ -6,10 +6,7 @@ router.get('/', (req, res) => {
   models.User.findAll({
     include: [ models.Alumn ]
   }).then(users => {
-    res.render('index', {
-      title: 'Sequelize: Express Example',
-      users: users
-    });
+    res.status(200).json({users: users});
   });
 });
 
