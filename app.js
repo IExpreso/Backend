@@ -8,8 +8,11 @@ const bodyParser = require('body-parser');
 const index = require('./routes/index');
 const users = require('./routes/users');
 const signup = require('./routes/signup');
+const login = require('./routes/login');
 
 const app = express();
+const env = process.env.NODE_ENV || 'development';
+const secret  = require(__dirname + '/config/config.json')[env]['secret'];
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,8 +27,30 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/login', login);
 app.use('/signup', signup);
 app.use('/users', users);
+
+app.use('/app/*', (req, res, next) => {
+  let token = req.body.token || req.query.token || req.headers['x-access-token'];
+  if (token)
+    jwt.verify(token, secret, (err, decoded) => {
+      if (err) {
+        return res.status(401).send({
+          success: false,
+          message: 'Failed to authenticate'
+        });
+      } else {
+        req.decoded = decoded;
+        next();
+      }
+    });
+  else
+    return res.status(403).send({
+      success: false,
+      message: 'No token provided'
+    });
+});
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

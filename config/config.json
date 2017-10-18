@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "b5cdbc1dae40f1",
-    "password": "2a7a4635",
+    "username": "root",
+    "password": "mysqlrootpassword",
     "host": "127.0.0.1",
     "secret": "very secretive secret",
     "database": "iexpresso_development",
@@ -9,16 +9,16 @@
     "dialect": "mysql"
   },
   "test": {
-    "usetrname": "b5cdbc1dae40f1",
-    "password": "2a7a4635",
+    "username": "root",
+    "password": "mysqlrootpassword",
     "database": "iexpresso_test",
     "secret": "very secretive secret",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
-    "username": "b5cdbc1dae40f1",
-    "password": "2a7a4635",
+    "username": "root",
+    "password": "mysqlrootpassword",
     "secret": "very secretive secret",
     "database": "iexpresso_production",
     "host": "127.0.0.1",
