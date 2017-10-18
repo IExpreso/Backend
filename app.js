@@ -4,11 +4,13 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
 const signup = require('./routes/signup');
 const login = require('./routes/login');
+const routes = require('./routes/routes.js');
 
 const app = express();
 const env = process.env.NODE_ENV || 'development';
@@ -31,7 +33,7 @@ app.use('/login', login);
 app.use('/signup', signup);
 app.use('/users', users);
 
-app.use('/app/*', (req, res, next) => {
+app.use('/api/*', (req, res, next) => {
   let token = req.body.token || req.query.token || req.headers['x-access-token'];
   if (token)
     jwt.verify(token, secret, (err, decoded) => {
@@ -51,6 +53,8 @@ app.use('/app/*', (req, res, next) => {
       message: 'No token provided'
     });
 });
+
+app.use('/api/routes', routes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
