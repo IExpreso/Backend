@@ -9,6 +9,8 @@ if [ $LOCAL = $REMOTE ]; then
     echo "Up to date";
 elif [ $LOCAL = $BASE ]; then
     fuser -k 3000/tcp > /dev/null;
+    git pull;
+    npm install;
     npm start &;
     echo "Server restarted";
 elif [ $REMOTE = $BASE ]; then
