@@ -8,8 +8,9 @@ BASE=$(git merge-base @ "$UPSTREAM")
 if [ $LOCAL = $REMOTE ]; then
     echo "Up to date";
 elif [ $LOCAL = $BASE ]; then
-    fuser -k 3000/tcp;
-    npm start;
+    fuser -k 3000/tcp > /dev/null;
+    npm start &;
+    echo "Server restarted";
 elif [ $REMOTE = $BASE ]; then
     echo "Need to push"
 else
