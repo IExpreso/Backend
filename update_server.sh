@@ -6,9 +6,10 @@ REMOTE=$(git rev-parse "$UPSTREAM")
 BASE=$(git merge-base @ "$UPSTREAM")
 
 if [ $LOCAL = $REMOTE ]; then
-    echo "Up-to-date"
+    echo "Up to date";
 elif [ $LOCAL = $BASE ]; then
-    echo "Need to pull"
+    fuser -k 3000/tcp;
+    npm start;
 elif [ $REMOTE = $BASE ]; then
     echo "Need to push"
 else
