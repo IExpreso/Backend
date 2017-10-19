@@ -11,7 +11,7 @@ elif [ $LOCAL = $BASE ]; then
     fuser -k 3000/tcp > /dev/null;
     git pull;
     npm install;
-    npm start &;
+    npm start;
     echo "Server restarted";
 elif [ $REMOTE = $BASE ]; then
     echo "Need to push"
