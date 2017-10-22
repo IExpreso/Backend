@@ -21,7 +21,7 @@ function comparePassword(candidate, cb) {
 }
 
 const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
-  // TODO: include Alumn
+  // TODO: include Student
   User.findOne({ email: email }, (err, user) => {
     if (err)
       return done(err);

@@ -3,19 +3,19 @@ var express = require('express');
 var router  = express.Router();
 
 router.post('/', (req, res, next) => {
-  models.Alumn.findOne(req.body.id).then(alumn => {
-    if (!alumn)
+  models.Student.findOne(req.body.id).then(student => {
+    if (!student)
       return res.status(404).json({ error: 'No such id: ' + req.body.id });
-    if (alumn.UserEmail)
-      return res.status(422).json({ error: 'Alumn already registered' });
+    if (student.UserEmail)
+      return res.status(422).json({ error: 'Student already registered' });
     console.log('start creating user');
     models.User.create({
       email: req.body.email,
       password: req.body.password
     }).then(user => {
       console.log('created user');
-      user.setAlumn(alumn, {save: true});
-      console.log('linked user with alumn');
+      user.setStudent(student, {save: true});
+      console.log('linked user with student');
       console.log(user);
       let token = jwt.sign({ user: user.get('email') }, secret, { expiresIn: '48h' });
       return res.status(201).json({

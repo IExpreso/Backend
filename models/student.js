@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(sequelize, DataTypes) {
-  var Alumn = sequelize.define("Alumn", {
+  var Student = sequelize.define("Student", {
     id: {type: DataTypes.STRING, primaryKey: true},
     name: {type: DataTypes.STRING, allowNull: false},
     startDate: {type: DataTypes.DATE, allowNull: false},
@@ -10,9 +10,9 @@ module.exports = function(sequelize, DataTypes) {
     updatedAt: {type: DataTypes.DATE, defaultValue: sequelize.fn('now')}
   });
 
-  // Alumn.associate = function(models) {
-  //   Alumn.hasMany(models.Route);
+  // Student.associate = function(models) {
+  //   Student.hasMany(models.Route);
   // }
 
-  return Alumn;
+  return Student;
 };

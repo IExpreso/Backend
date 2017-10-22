@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   User.associate = function(models) {
-    User.hasOne(models.Alumn);
+    User.hasOne(models.Student);
   }
 
   return User;

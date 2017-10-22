@@ -4,7 +4,7 @@ var router  = express.Router();
 
 router.get('/', (req, res) => {
   models.User.findAll({
-    include: [ models.Alumn ]
+    include: [ models.Student ]
   }).then(users => {
     res.status(200).json({users: users});
   });
