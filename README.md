@@ -31,6 +31,9 @@ Now with `npm start` the server should start in port 3000.
   + Creates a new user if it's a preregistered student.
   + Receives a json of the form:
     - {"id": "A0XXXXX", "email": "email@email.com", "password": "secretish_pass"}
+  + Returns the token and user email:
+    - {"token": "TKN 23oinwod0pi9nd012n03n0f8in02in023n0", "user": "email@email.com"}
+
 - /login (POST)
   + Returns a token that can be used to access protected resources.
     - {"token": "TKN 23oinwod0pi9nd012n03n0f8in02in023n0"}
@@ -42,4 +45,7 @@ Now with `npm start` the server should start in port 3000.
 
 - /api/admin/register (POST)
   + A token with admin privileges is needed in a header with the name "x-access-token".
-  +
+  + Receives a json of the form:
+    - {"id": "A0XXXXX", "email": "email@email.com", "password": "secretish_pass", "role": "student|admin|driver"}
+  + Returns the token and user email:
+    - {"token": "TKN 23oinwod0pi9nd012n03n0f8in02in023n0", "user": "email@email.com"}

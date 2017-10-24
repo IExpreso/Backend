@@ -6,14 +6,7 @@ router.post('/register', (req, res, next) => {
   if (req.body.role && req.body.role != 'user') {
     models.User.create(req.body).then(user => {
       console.log(`created user with role ${req.body.role}`);
-      let token = jwt.sign({
-        user: user.get('email'),
-        role: user.get('role')
-      }, secret, { expiresIn: '48h' });
-      return res.status(201).json({
-        token: 'JWT ' + token,
-        user: user.email
-      });
+      return res.sendStatus(201);
     }).catch(err => {
       return res.status(409).json({error: 'Email already in use'});
     });
@@ -32,14 +25,7 @@ router.post('/register', (req, res, next) => {
         user.setStudent(student, {save: true});
         console.log('linked user with student');
         console.log(user);
-        let token = jwt.sign({
-          user: user.get('email'),
-          role: user.get('role')
-        }, secret, { expiresIn: '48h' });
-        return res.status(201).json({
-          token: 'JWT ' + token,
-          user: user.email
-        });
+        return res.sendStatus(201);
       }).catch(err => {
         return res.status(409).json({error: 'Email already in use'});
       });
