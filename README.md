@@ -39,3 +39,7 @@ Now with `npm start` the server should start in port 3000.
 - /api/routes (GET)
   + A token is needed in a header with the name "x-access-token".
   + Returs a list of all bus routes.
+
+- /api/admin/register (POST)
+  + A token with admin privileges is needed in a header with the name "x-access-token".
+  +

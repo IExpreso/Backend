@@ -17,7 +17,10 @@ router.post('/', (req, res, next) => {
       user.setStudent(student, {save: true});
       console.log('linked user with student');
       console.log(user);
-      let token = jwt.sign({ user: user.get('email') }, secret, { expiresIn: '48h' });
+      let token = jwt.sign({
+        user: user.get('email'),
+        role: user.get('role')
+      }, secret, { expiresIn: '48h' });
       return res.status(201).json({
         token: 'JWT ' + token,
         user: user.email
