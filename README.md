@@ -32,11 +32,11 @@ Now with `npm start` the server should start in port 3000.
   + Receives a json of the form:
     - {"id": "A0XXXXX", "email": "email@email.com", "password": "secretish_pass"}
   + Returns the token and user email:
-    - {"token": "TKN 23oinwod0pi9nd012n03n0f8in02in023n0", "user": "email@email.com"}
+    - {"token": "*token*", "user": "email@email.com"}
 
 - /login (POST)
   + Returns a token that can be used to access protected resources.
-    - {"token": "TKN 23oinwod0pi9nd012n03n0f8in02in023n0"}
+    - {"token": "*token*"}
   + Receives a json of the form:
     - {"email": "email@email.com", "password": "secretish_pass"}
 - /api/routes (GET)
@@ -48,4 +48,4 @@ Now with `npm start` the server should start in port 3000.
   + Receives a json of the form:
     - {"id": "A0XXXXX", "email": "email@email.com", "password": "secretish_pass", "role": "student|admin|driver"}
   + Returns the token and user email:
-    - {"token": "TKN 23oinwod0pi9nd012n03n0f8in02in023n0", "user": "email@email.com"}
+    - {"token": "*token*", "user": "email@email.com"}

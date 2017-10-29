@@ -17,7 +17,7 @@ router.post('/', (req, res) => {
     } else if (req.body.password === user.get('password')) {
       let token = jwt.sign({ user: user.get('email') }, secret, { expiresIn: '48h' });
       return res.status(200).json({
-        token: 'JWT ' + token,
+        token: token,
         user: user.email
       });
     } else {

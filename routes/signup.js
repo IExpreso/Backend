@@ -22,7 +22,7 @@ router.post('/', (req, res, next) => {
         role: user.get('role')
       }, secret, { expiresIn: '48h' });
       return res.status(201).json({
-        token: 'JWT ' + token,
+        token: token,
         user: user.email
       });
     }).catch(err => {
