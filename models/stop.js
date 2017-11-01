@@ -8,9 +8,5 @@ module.exports = function(sequelize, DataTypes) {
     updatedAt: {type: DataTypes.DATE, defaultValue: sequelize.fn('now')}
   });
 
-  Stop.associate = function(models) {
-    Stop.belongsToMany(models.Route, {through: 'RouteStop'});
-  }
-
   return Stop;
 };

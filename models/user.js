@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
       values: ['student', 'admin', 'driver'],
-      defaultValue: 'admin'
+      defaultValue: 'student'
     },
     password: {type: DataTypes.STRING, allowNull: false},
     createdAt: {type: DataTypes.DATE, defaultValue: sequelize.fn('now')},

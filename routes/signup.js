@@ -1,22 +1,24 @@
+'use strict';
+
 var models  = require('../models');
 var express = require('express');
+const jwt = require('jsonwebtoken');
+
 var router  = express.Router();
+const env = process.env.NODE_ENV || 'development';
+const secret  = require(__dirname + '/../config/config.json')[env]['secret'];
 
 router.post('/', (req, res, next) => {
-  models.Student.findOne(req.body.id).then(student => {
+  models.Student.findById(req.body.id).then(student => {
     if (!student)
       return res.status(404).json({ error: 'No such id: ' + req.body.id });
     if (student.UserEmail)
       return res.status(422).json({ error: 'Student already registered' });
-    console.log('start creating user');
     models.User.create({
       email: req.body.email,
       password: req.body.password
     }).then(user => {
-      console.log('created user');
       user.setStudent(student, {save: true});
-      console.log('linked user with student');
-      console.log(user);
       let token = jwt.sign({
         user: user.get('email'),
         role: user.get('role')
@@ -26,6 +28,7 @@ router.post('/', (req, res, next) => {
         user: user.email
       });
     }).catch(err => {
+      console.log(err);
       return res.status(409).json({error: 'Email already in use'});
     });
   }).catch(err => {
