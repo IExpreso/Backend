@@ -14,12 +14,15 @@ const routes = require('./routes/routes.js');
 const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
+const cors = require('cors');
 const env = process.env.NODE_ENV || 'development';
 const secret  = require(__dirname + '/config/config.json')[env]['secret'];
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+app.use(cors());
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -31,7 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
 	res.header('Access-Control-Allow-Origin', '*');
-	res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+	res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS, DELETE');
 	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, x-access-token');
 	res.header("Access-Control-Allow-Credentials", "true");
 	next();
