@@ -79,7 +79,7 @@ INSERT INTO Students(id, name, startDate, endDate, UserEmail) VALUES(
   '2020-10-13 13:05:22',
   'miguelcbrm@gmail.com'
 );
-INSERT INTO Routes(name) VALUES('Chapultepec'), ('Cañadas'), ('Ciudadela'), ('Santa Anita'), ('Guadalupe'), ('Palomar'), ('Sur'), ('Sur 2');
+INSERT INTO Routes(name) VALUES('Chapultepec'), ('Cañadas'), ('Ciudadela'), ('SantaAnita'), ('Guadalupe'), ('Palomar'), ('Sur'), ('Sur2');
 
 --  -- RUTA TRÁNSITO [Not available]
 -- INSERT INTO Stops(name, location) VALUES('Tránsito', GeomFromText('POINT()')),
@@ -191,16 +191,16 @@ INSERT IGNORE INTO Stops(name, location) VALUES('Plaza Xóchitl', GeomFromText('
                                  ('El Tajo', GeomFromText('POINT(20.581277 -103.4492451)')),
                                  ('Nueva Galicia', GeomFromText('POINT(20.5776309 -103.4441328)'));
 
-INSERT INTO RouteStop(RouteName, StopName) VALUES('Santa Anita', 'Plaza Xóchitl'),
-                                  ('Santa Anita', '7 Eleven'),
-                                  ('Santa Anita', 'Office Depot'),
-                                  ('Santa Anita', 'Porsche'),
-                                  ('Santa Anita', 'Soriana Las Águilas'),
-                                  ('Santa Anita', 'Starbucks Las Fuentes'),
-                                  ('Santa Anita', 'Bugambilias'),
-                                  ('Santa Anita', 'Paseo Del Palomar'),
-                                  ('Santa Anita', 'El Tajo'),
-                                  ('Santa Anita', 'Nueva Galicia');
+INSERT INTO RouteStop(RouteName, StopName) VALUES('SantaAnita', 'Plaza Xóchitl'),
+                                  ('SantaAnita', '7 Eleven'),
+                                  ('SantaAnita', 'Office Depot'),
+                                  ('SantaAnita', 'Porsche'),
+                                  ('SantaAnita', 'Soriana Las Águilas'),
+                                  ('SantaAnita', 'Starbucks Las Fuentes'),
+                                  ('SantaAnita', 'Bugambilias'),
+                                  ('SantaAnita', 'Paseo Del Palomar'),
+                                  ('SantaAnita', 'El Tajo'),
+                                  ('SantaAnita', 'Nueva Galicia');
 
 -- RUTA GUADALUPE
 INSERT IGNORE INTO Stops(name, location) VALUES('Glorieta Chapalita', GeomFromText('POINT(20.6662523 -103.4033794)')),
@@ -260,20 +260,20 @@ INSERT IGNORE INTO Stops(name, location) VALUES('Palomar', GeomFromText('POINT(2
                                  ('Miguel Ángel', GeomFromText('POINT(20.6211366 -103.4224874)')),
                                  ('Ciudad Judicial', GeomFromText('POINT(20.6015545 -103.4495186)'));
 
-INSERT INTO RouteStop(RouteName, StopName) VALUES('Sur 2', 'Palomar'),
-                                ('Sur 2', 'Bugambilias'),
-                                ('Sur 2', 'Las Fuentes'),
-                                ('Sur 2', 'Las Águilas'),
-                                ('Sur 2', 'La Calma'),
-                                ('Sur 2', 'Plaza del Sol'),
-                                ('Sur 2', 'Plaza del Ángel'),
-                                ('Sur 2', 'Glorieta Chapalita'),
-                                ('Sur 2', 'Niño Obrero'),
-                                ('Sur 2', 'Nicolás de Bari'),
-                                ('Sur 2', 'Oxxo Patria'),
-                                ('Sur 2', 'Toreros'),
-                                ('Sur 2', 'SRE'),
-                                ('Sur 2', 'La Playa'),
-                                ('Sur 2', 'Santo Tomás'),
-                                ('Sur 2', 'Miguel Ángel'),
-                                ('Sur 2', 'Ciudad Judicial');
+INSERT INTO RouteStop(RouteName, StopName) VALUES('Sur2', 'Palomar'),
+                                ('Sur2', 'Bugambilias'),
+                                ('Sur2', 'Las Fuentes'),
+                                ('Sur2', 'Las Águilas'),
+                                ('Sur2', 'La Calma'),
+                                ('Sur2', 'Plaza del Sol'),
+                                ('Sur2', 'Plaza del Ángel'),
+                                ('Sur2', 'Glorieta Chapalita'),
+                                ('Sur2', 'Niño Obrero'),
+                                ('Sur2', 'Nicolás de Bari'),
+                                ('Sur2', 'Oxxo Patria'),
+                                ('Sur2', 'Toreros'),
+                                ('Sur2', 'SRE'),
+                                ('Sur2', 'La Playa'),
+                                ('Sur2', 'Santo Tomás'),
+                                ('Sur2', 'Miguel Ángel'),
+                                ('Sur2', 'Ciudad Judicial');
