@@ -40,6 +40,14 @@ INSERT INTO Users(email, role, password) VALUES(
 );
 
 -- Create students for development
+INSERT INTO Students(id, name, startDate, endDate) VALUES(
+  'A01631385',
+  'Lucía Velasco',
+  '2015-05-02 13:05:22',
+  '2020-10-13 13:05:22'
+);
+
+-- Create admins
 INSERT INTO Students(id, name, startDate, endDate, UserEmail) VALUES(
   'A01631677',
   'Hermes Espínola González',

@@ -16,7 +16,7 @@ router.post('/', (req, res) => {
     }
     bcrypt.compare(req.body.password, user.get('password'), (err, hashed) => {
       if (hashed) {
-        let token = jwt.sign({ user: user.get('email') }, secret, { expiresIn: '48h' });
+        let token = jwt.sign({ user: user.get('email'), role: user.get('role') }, secret, { expiresIn: '48h' });
         return res.status(200).json({
           token: token,
           user: user.email
