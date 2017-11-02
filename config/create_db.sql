@@ -13,36 +13,63 @@ DROP TABLE IF EXISTS `Stops`;
 
 CREATE TABLE IF NOT EXISTS `Routes` (`name` VARCHAR(255) , `createdAt` DATETIME DEFAULT now(), `updatedAt` DATETIME DEFAULT now(), PRIMARY KEY (`name`));
 CREATE TABLE IF NOT EXISTS `Stops` (`name` VARCHAR(255) , `location` POINT, `createdAt` DATETIME DEFAULT now(), `updatedAt` DATETIME DEFAULT now(), PRIMARY KEY (`name`));
-CREATE TABLE IF NOT EXISTS `Users` (`email` VARCHAR(255) , `role` VARCHAR(255) NOT NULL DEFAULT 'admin', `password` VARCHAR(255) NOT NULL, `createdAt` DATETIME DEFAULT now(), `updatedAt` DATETIME DEFAULT now(), PRIMARY KEY (`email`));
+CREATE TABLE IF NOT EXISTS `Users` (`email` VARCHAR(255) , `role` VARCHAR(255) NOT NULL DEFAULT 'student', `password` VARCHAR(255) NOT NULL, `createdAt` DATETIME DEFAULT now(), `updatedAt` DATETIME DEFAULT now(), PRIMARY KEY (`email`));
 CREATE TABLE IF NOT EXISTS `Students` (`id` VARCHAR(255) , `name` VARCHAR(255) NOT NULL, `startDate` DATETIME NOT NULL, `endDate` DATETIME NOT NULL, `createdAt` DATETIME DEFAULT now(), `updatedAt` DATETIME DEFAULT now(), `UserEmail` VARCHAR(255), PRIMARY KEY (`id`), FOREIGN KEY (`UserEmail`) REFERENCES `Users` (`email`) ON DELETE SET NULL ON UPDATE CASCADE);
 CREATE TABLE IF NOT EXISTS `RouteStop` (`createdAt` DATETIME DEFAULT now(), `updatedAt` DATETIME DEFAULT now(), `StopName` VARCHAR(255) , `RouteName` VARCHAR(255) , PRIMARY KEY (`StopName`, `RouteName`), FOREIGN KEY (`StopName`) REFERENCES `Stops` (`name`) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (`RouteName`) REFERENCES `Routes` (`name`) ON DELETE CASCADE ON UPDATE CASCADE);
 
+INSERT INTO Users(email, role, password) VALUES(
+  'hermes.espinola@gmail.com',
+  'admin',
+  '$2a$10$Gw8WGWz0b96M/NTDaf7e9e0VRnyv2YpKh8ftT2QcsPmr1UfBftK5G'
+), (
+  'gertrevtabb@gmail.com',
+  'admin',
+  '$2a$10$Gw8WGWz0b96M/NTDaf7e9e0VRnyv2YpKh8ftT2QcsPmr1UfBftK5G'
+), (
+  'miguelcbrm@gmail.com',
+  'admin',
+  '$2a$10$Gw8WGWz0b96M/NTDaf7e9e0VRnyv2YpKh8ftT2QcsPmr1UfBftK5G'
+), (
+  'a01225152@itesm.mx',
+  'admin',
+  '$2a$10$Gw8WGWz0b96M/NTDaf7e9e0VRnyv2YpKh8ftT2QcsPmr1UfBftK5G'
+), (
+  'a01421882@itesm.mx',
+  'admin',
+  '$2a$10$Gw8WGWz0b96M/NTDaf7e9e0VRnyv2YpKh8ftT2QcsPmr1UfBftK5G'
+);
+
 -- Create students for development
-INSERT INTO Students(id, name, startDate, endDate) VALUES(
+INSERT INTO Students(id, name, startDate, endDate, UserEmail) VALUES(
   'A01631677',
   'Hermes Espínola González',
   '2015-05-02 13:05:22',
-  '2020-10-13 13:05:22'
+  '2020-10-13 13:05:22',
+  'hermes.espinola@gmail.com'
 ), (
   'A01225152',
   'Dennis Jesús Kingston Godinez',
   '2015-05-02 13:05:22',
-  '2020-10-13 13:05:22'
+  '2020-10-13 13:05:22',
+  'a01225152@itesm.mx'
 ), (
   'A01228802',
   'German Daniel Treviño Taboada',
   '2015-05-02 13:05:22',
-  '2020-10-13 13:05:22'
+  '2020-10-13 13:05:22',
+  'gertrevtabb@gmail.com'
 ), (
   'A01421882',
   'Jose Ramon Garcia Gonzalez',
   '2015-05-02 13:05:22',
-  '2020-10-13 13:05:22'
+  '2020-10-13 13:05:22',
+  'a01421882@itesm.mx'
 ), (
   'A01226132',
   'Miguel Angel Cabral Ramírez',
   '2015-05-02 13:05:22',
-  '2020-10-13 13:05:22'
+  '2020-10-13 13:05:22',
+  'miguelcbrm@gmail.com'
 );
 INSERT INTO Routes(name) VALUES('Chapultepec'), ('Cañadas'), ('Ciudadela'), ('Santa Anita'), ('Guadalupe'), ('Palomar'), ('Sur'), ('Sur 2');
 
