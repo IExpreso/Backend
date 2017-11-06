@@ -47,7 +47,7 @@ models.Route.findAll().then(result => {
 
     let driverNps = io.of(`/drive/${route.name}`);
     driverNps.use((socket, next) => {
-      let token = socket.request.headers.token;
+      let token = socket.request._query.token;
       if (token) jwt.verify(token, secret, (err, decoded) => {
         if (err) socket.emit('error', {
           status: 401,
