@@ -30,7 +30,7 @@ INSERT INTO Users(email, role, password) VALUES(
   'admin',
   '$2a$10$Gw8WGWz0b96M/NTDaf7e9e0VRnyv2YpKh8ftT2QcsPmr1UfBftK5G'
 ), (
-  'a01225152@itesm.mx',
+  'd.kingston12@gmail.com',
   'admin',
   '$2a$10$Gw8WGWz0b96M/NTDaf7e9e0VRnyv2YpKh8ftT2QcsPmr1UfBftK5G'
 ), (
@@ -59,7 +59,7 @@ INSERT INTO Students(id, name, startDate, endDate, UserEmail) VALUES(
   'Dennis Jesús Kingston Godinez',
   '2015-05-02 13:05:22',
   '2020-10-13 13:05:22',
-  'a01225152@itesm.mx'
+  'd.kingston12@gmail.com'
 ), (
   'A01228802',
   'German Daniel Treviño Taboada',

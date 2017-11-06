@@ -23,6 +23,10 @@
     "passport-local": "^1.0.0",
     "sequelize": "^3.5.1",
     "serve-favicon": "~2.4.5",
+    "socket.io": "^2.0.4",
+    "socket.io-emitter": "^3.1.1",
+    "socket.io-redis": "^5.2.0",
+    "socketio-jwt": "^4.5.0",
     "sqlite3": "^3.1.13"
   }
 }
