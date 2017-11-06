@@ -72,28 +72,26 @@ app.use('/api/routes', routes);
 
 app.use('/api/admin/*', (req, res, next) => {
   let token = req.body.token || req.query.token || req.headers['x-access-token'];
-  if (token)
-    jwt.verify(token, secret, (err, decoded) => {
-      if (err) {
-        return res.status(401).send({
-          success: false,
-          message: 'Failed to authenticate'
-        });
-      } else if (decoded.role != 'admin') {
-				return res.status(403).send({
-          success: false,
-          message: "Forbidden"
-        });
-      } else {
-				req.decoded = decoded;
-        next();
-			}
-    });
-  else
-    return res.status(400).send({
-      success: false,
-      message: 'No token provided'
-    });
+  if (token) jwt.verify(token, secret, (err, decoded) => {
+    if (err) {
+      return res.status(401).send({
+        success: false,
+        message: 'Failed to authenticate'
+      });
+    } else if (decoded.role != 'admin') {
+			return res.status(403).send({
+        success: false,
+        message: 'Forbidden'
+      });
+    } else {
+			req.decoded = decoded;
+      next();
+		}
+  });
+	else return res.status(400).send({
+    success: false,
+    message: 'No token provided'
+  });
 });
 app.use('/api/admin', adminRoutes);
 
