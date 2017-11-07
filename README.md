@@ -21,6 +21,8 @@ $ mysql -u root -p'root_password_here'
 mysql> source config/create_db.sql
 ```
 
+Now go and install [redis](https://redis.io/topics/quickstart).
+
 Now with `npm start` the server should start in port 3000.
 
 ## Routes
