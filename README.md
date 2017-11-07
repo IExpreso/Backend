@@ -27,6 +27,7 @@ Now with `npm start` the server should start in port 3000.
 - / (GET)
   + A list of all registered users (for debuging).
     - {Users: []}
+
 - /signup (POST)
   + Creates a new user if it's a preregistered student.
   + Receives a json of the form:
@@ -39,6 +40,7 @@ Now with `npm start` the server should start in port 3000.
     - {"token": "*token*"}
   + Receives a json of the form:
     - {"email": "email@email.com", "password": "secretish_pass"}
+
 - /api/routes (GET)
   + A token is needed in a header with the name "x-access-token".
   + Returs a list of all bus routes.
@@ -49,3 +51,35 @@ Now with `npm start` the server should start in port 3000.
     - {"id": "A0XXXXX", "email": "email@email.com", "password": "secretish_pass", "role": "student|admin|driver"}
   + Returns the token and user email:
     - {"token": "*token*", "user": "email@email.com"}
+
+
+- /api/track/*RouteName* (SOCKET)
+  + Listen this route with socket.io-client to receive updates of *RouteName* bus location.
+  + requires 'query=*token*'.
+  + client needs to listen to 'update'.
+
+example:
+```javascript
+let client = require('socket.io-client')('http://localhost:3000/api/track/Chapultepec', {
+  query: `token=${token}`
+});
+client.on('update', (loc) => {
+  console.log(`latitude is: ${loc.lat} and longitude is: ${loc.lng}`);
+});
+```
+- /api/drive/*RouteName* (SOCKET)
+  + Emmit location updates here with socket.io-client to notify students
+    connected to /api/track/*RouteName* about bus location.
+  + requires 'query=*token*', only driver users are allowed.
+  + client needs to emmit to 'update'.
+
+example:
+```javascript
+let driver = require('socket.io-client')('http://localhost:3000/api/track/Chapultepec', {
+  query: `token=${token}` // driver token
+});
+let lat, lng = ... // some data from gps
+driver.emit('update', {lat: lat, lng: lng});
+```
+
+- [ ] Test socket connections.
