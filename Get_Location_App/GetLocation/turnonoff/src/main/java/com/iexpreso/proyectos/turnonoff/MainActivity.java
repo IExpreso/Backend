@@ -19,6 +19,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URISyntaxException;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button encender;
@@ -26,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView coordenates;
     private LocationManager locationManager;
     private LocationListener locationListener;
+    private Socket mSocket;
+    private String userName;
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -33,13 +45,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        this.userName = LoginActivity.getUserName();
+        Toast.makeText(getApplicationContext(), "Bienvenido " + this.userName, Toast.LENGTH_SHORT).show();
+
+        try {
+            mSocket = IO.socket("http://localhost");
+        } catch (URISyntaxException e) {}
+
+        mSocket.connect();
+
 
         encender = (Button) findViewById(R.id.ON);
         encender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i("My Tag", "This is my first log");
-                Toast.makeText(getApplicationContext(), "Activado", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -49,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 locationManager.removeUpdates(locationListener);
                 Toast.makeText(getApplicationContext(), "Desactivado", Toast.LENGTH_SHORT).show();
+                onDestroy();
             }
         });
 
@@ -58,7 +79,25 @@ public class MainActivity extends AppCompatActivity {
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                coordenates.append("\n " + location.getLatitude() + ", " + location.getLongitude());
+                coordenates.setText("\n " + location.getLatitude() + ", " + location.getLongitude());
+
+                JSONObject obj = new JSONObject();
+                try {
+                    obj.put("Nombre", userName);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    obj.put("Latitud", location.getLatitude());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    obj.put("Longitud", location.getLongitude());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mSocket.emit("Coordenates", obj);
             }
 
             @Override
@@ -103,9 +142,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 locationManager.requestLocationUpdates("gps", 3000, 0, locationListener);
+                Toast.makeText(getApplicationContext(), "Activado", Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
+
+
+    public void onDestroy() {
+        super.onDestroy();
+
+        mSocket.disconnect();
+    }
+
 }
