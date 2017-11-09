@@ -77,7 +77,7 @@ client.on('update', (loc) => {
 
 example:
 ```javascript
-let driver = require('socket.io-client')('http://localhost:3000/api/track/Chapultepec', {
+let driver = require('socket.io-client')('http://localhost:3000/api/drive/Chapultepec', {
   query: `token=${token}` // driver token
 });
 let lat, lng = ... // some data from gps
