@@ -6,6 +6,7 @@ const debug = require('debug')('express-sequelize');
 const http = require('http');
 const models = require('../models');
 const redis = require('socket.io-redis');
+const jwt = require('jsonwebtoken');
 
 const env = process.env.NODE_ENV || 'development';
 const secret  = require(__dirname + '/../config/config.json')[env]['secret'];
@@ -32,49 +33,54 @@ app.io = io;
 models.Route.findAll().then(result => {
   result.forEach(route => {
     let listenerNps = io.of(`/api/track/${route.name}`);
-    // listenerNps.use(require('socketio-jwt').authorize({
-    //     secret: secret,
-    //     handshake: true
-    // }));
+    listenerNps.use(require('socketio-jwt').authorize({
+        secret: secret,
+        handshake: true
+    }));
 
     listenerNps.on('connection', socket => {
      let msg = `socket: ${socket.id} connected to Chapultepec`;
       console.log(msg);
-      socket.emit('message', 'connected');
-      socket.on('getSomeData', (id, msg) => {
-        socket.emit('message', `this is a test, client ${id} sent: ${msg}`);
-      });
     });
 
     console.log('created student socket listener');
 
     let driverNps = io.of(`/api/drive/${route.name}`);
-    // driverNps.use((socket, next) => {
-    //   let token = socket.request._query.token;
-    //   if (token) jwt.verify(token, secret, (err, decoded) => {
-    //     if (err) socket.emit('error', {
-    //       status: 401,
-    //       success: false,
-    //       message: 'Failed to authenticate'
-    //     });
-    //     else if (decoded.role != 'driver') socket.emit('error', {
-    //       status: 403,
-    //       success: false,
-    //       message: 'Forbidden'
-    //     });
-    //     else next();
-    //   });
-    //   else socket.emit('error', {
-    //     status: 400,
-    //     success: false,
-    //     message: 'No token provided'
-    //   });
-    // });
+    driverNps.use((socket, next) => {
+      let token = socket.request._query.token;
+      console.log(socket.request);
+      console.log(token);
+      if (token) jwt.verify(token, secret, (err, decoded) => {
+        if (err) socket.emit('error', {
+          status: 401,
+          success: false,
+          message: 'Failed to authenticate'
+        });
+        else if (decoded.role != 'driver') socket.emit('error', {
+          status: 403,
+          success: false,
+          message: 'Forbidden'
+        });
+        else next();
+      });
+      else {
+        socket.emit('error', {
+        status: 400,
+        success: false,
+        message: 'No token provided'
+      });
+    }
+    });
 
     driverNps.on('connection', socket => {
       let msg = `Starting bus route: ${route.name}`;
       console.log(msg);
       listenerNps.emit('notify', msg);
+
+      socket.on('disconnect', socket => {
+        listenerNps.emit('driver-disconnect', 'driver disconnect');
+      });
+
       socket.on('update', newLoc => {
         if (newLoc.hasOwnProperty('lat') && newLoc.hasOwnProperty('lng')) {
           console.log('New location:');
@@ -89,7 +95,12 @@ models.Route.findAll().then(result => {
     });
 
     console.log('created driver socket listener');
+  });
+});
 
+io.sockets.on('connection', function(socket) {
+    socket.on('error', function(err) {
+    console.log(err);
   });
 });
 
