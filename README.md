@@ -68,6 +68,14 @@ let client = require('socket.io-client')('http://localhost:3000/api/track/Chapul
 client.on('update', (loc) => {
   console.log(`latitude is: ${loc.lat} and longitude is: ${loc.lng}`);
 });
+
+client.on('error', (err) => {
+  console.log(err);
+});
+
+client.on('notifty', newLoc => {
+  // update map, etc...
+});
 ```
 - /api/drive/*RouteName* (SOCKET)
   + Emmit location updates here with socket.io-client to notify students
@@ -80,6 +88,11 @@ example:
 let driver = require('socket.io-client')('http://localhost:3000/api/drive/Chapultepec', {
   query: `token=${token}` // driver token
 });
+
+driver.on('err', (locerr) => {
+  console.log(err);
+});
+
 let lat, lng = ... // some data from gps
 driver.emit('update', {lat: lat, lng: lng});
 ```
