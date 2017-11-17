@@ -37,6 +37,10 @@ INSERT INTO Users(email, role, password) VALUES(
   'a01421882@itesm.mx',
   'admin',
   '$2a$10$Gw8WGWz0b96M/NTDaf7e9e0VRnyv2YpKh8ftT2QcsPmr1UfBftK5G'
+), (
+  'a01421882@itesm.mx',
+  'driver',
+  '$2a$10$Gw8WGWz0b96M/NTDaf7e9e0VRnyv2YpKh8ftT2QcsPmr1UfBftK5G'
 );
 
 -- Create students for development
