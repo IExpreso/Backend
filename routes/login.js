@@ -20,7 +20,8 @@ router.post('/', (req, res) => {
         let token = jwt.sign({ user: user.get('email'), role: user.get('role') }, secret, { expiresIn: '48h' });
         return res.status(200).json({
           token: token,
-          user: user.email
+          user: user.email,
+          role: user.role
         });
       } else return res.status(401).json({ error: 'invalid password' });
     });
