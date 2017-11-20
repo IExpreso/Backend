@@ -33,7 +33,8 @@ router.post('/register', (req, res, next) => {
     });
 
   } else {
-    models.Student.findOne(req.body.id).then(student => {
+
+    models.Student.findOne({ id: req.body.id }).then(student => {
       if (!student)
         return res.status(404).json({ error: 'No such id: ' + req.body.id });
       if (student.UserEmail)
@@ -59,6 +60,7 @@ router.post('/register', (req, res, next) => {
     }).catch(err => {
       return res.status(500).json({error: err});
     });
+
   }
 });
 
