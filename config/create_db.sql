@@ -10,7 +10,6 @@ DROP TABLE IF EXISTS `RouteStop`;
 DROP TABLE IF EXISTS `Routes`;
 DROP TABLE IF EXISTS `Stops`;
 
-
 CREATE TABLE IF NOT EXISTS `Routes` (`name` VARCHAR(255) , `createdAt` DATETIME DEFAULT now(), `updatedAt` DATETIME DEFAULT now(), PRIMARY KEY (`name`));
 CREATE TABLE IF NOT EXISTS `Stops` (`name` VARCHAR(255) , `location` POINT, `createdAt` DATETIME DEFAULT now(), `updatedAt` DATETIME DEFAULT now(), PRIMARY KEY (`name`));
 CREATE TABLE IF NOT EXISTS `Users` (`email` VARCHAR(255) , `role` VARCHAR(255) NOT NULL DEFAULT 'student', `password` VARCHAR(255) NOT NULL, `createdAt` DATETIME DEFAULT now(), `updatedAt` DATETIME DEFAULT now(), PRIMARY KEY (`email`));
@@ -38,17 +37,18 @@ INSERT INTO Users(email, role, password) VALUES(
   'admin',
   '$2a$10$Gw8WGWz0b96M/NTDaf7e9e0VRnyv2YpKh8ftT2QcsPmr1UfBftK5G'
 ), (
-  'a01421882@itesm.mx',
-  'driver',
+  'student@gmail.com',
+  'student',
   '$2a$10$Gw8WGWz0b96M/NTDaf7e9e0VRnyv2YpKh8ftT2QcsPmr1UfBftK5G'
 );
 
--- Create students for development
-INSERT INTO Students(id, name, startDate, endDate) VALUES(
+-- Create students for testing
+INSERT INTO Students(id, name, startDate, endDate, UserEmail) VALUES(
   'A01631385',
   'Lucía Velasco',
   '2015-05-02 13:05:22',
-  '2020-10-13 13:05:22'
+  '2020-10-13 13:05:22',
+  'student@gmail.com'
 );
 
 -- Create admins
@@ -83,6 +83,7 @@ INSERT INTO Students(id, name, startDate, endDate, UserEmail) VALUES(
   '2020-10-13 13:05:22',
   'miguelcbrm@gmail.com'
 );
+
 INSERT INTO Routes(name) VALUES('Chapultepec'), ('Cañadas'), ('Ciudadela'), ('SantaAnita'), ('Guadalupe'), ('Palomar'), ('Sur'), ('Sur2');
 
 --  -- RUTA TRÁNSITO [Not available]
