@@ -97,4 +97,8 @@ let lat, lng = ... // some data from gps
 driver.emit('update', {lat: lat, lng: lng});
 ```
 
-- [ ] Test socket connections.
+### TODO
+- [ ] Email address confirmation (extra).
+- [ ] Student subscriptions to bus.
+- [ ] Android push notification when bus is nearby.
+- [ ] Password reset (extra).
