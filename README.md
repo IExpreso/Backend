@@ -78,10 +78,10 @@ client.on('notifty', newLoc => {
 });
 ```
 - /api/drive/*RouteName* (SOCKET)
-  + Emmit location updates here with socket.io-client to notify students
+  + emit location updates here with socket.io-client to notify students
     connected to /api/track/*RouteName* about bus location.
   + requires 'query=*token*', only driver users are allowed.
-  + client needs to emmit to 'update'.
+  + client needs to emit to 'update'.
 
 example:
 ```javascript
