@@ -10,6 +10,7 @@ const env = process.env.NODE_ENV || 'development';
 const secret  = require(__dirname + './../config/config.json')[env]['secret'];
 
 router.post('/', (req, res) => {
+  console.log(req.body.email + ":" + req.body.password);
   models.User.findById(req.body.email).then(user => {
     if (!user) {
       return res.status(401).json({ error: 'invalid user' });
@@ -19,7 +20,8 @@ router.post('/', (req, res) => {
         let token = jwt.sign({ user: user.get('email'), role: user.get('role') }, secret, { expiresIn: '48h' });
         return res.status(200).json({
           token: token,
-          user: user.email
+          user: user.email,
+          role: user.role
         });
       } else return res.status(401).json({ error: 'invalid password' });
     });

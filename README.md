@@ -68,20 +68,37 @@ let client = require('socket.io-client')('http://localhost:3000/api/track/Chapul
 client.on('update', (loc) => {
   console.log(`latitude is: ${loc.lat} and longitude is: ${loc.lng}`);
 });
+
+client.on('error', (err) => {
+  console.log(err);
+});
+
+client.on('notifty', newLoc => {
+  // update map, etc...
+});
 ```
 - /api/drive/*RouteName* (SOCKET)
-  + Emmit location updates here with socket.io-client to notify students
+  + emit location updates here with socket.io-client to notify students
     connected to /api/track/*RouteName* about bus location.
   + requires 'query=*token*', only driver users are allowed.
-  + client needs to emmit to 'update'.
+  + client needs to emit to 'update'.
 
 example:
 ```javascript
-let driver = require('socket.io-client')('http://localhost:3000/api/track/Chapultepec', {
+let driver = require('socket.io-client')('http://localhost:3000/api/drive/Chapultepec', {
   query: `token=${token}` // driver token
 });
+
+driver.on('err', (locerr) => {
+  console.log(err);
+});
+
 let lat, lng = ... // some data from gps
 driver.emit('update', {lat: lat, lng: lng});
 ```
 
-- [ ] Test socket connections.
+### TODO
+- [ ] Email address confirmation (extra).
+- [ ] Student subscriptions to bus.
+- [ ] Android push notification when bus is nearby.
+- [ ] Password reset (extra).
