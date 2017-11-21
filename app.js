@@ -45,7 +45,6 @@ app.use((req, res, next) => {
 app.use('/', index);
 app.use('/login', login);
 app.use('/signup', signup);
-app.use('/users', users);
 
 app.use('/api/*', (req, res, next) => {
   let token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -67,6 +66,8 @@ app.use('/api/*', (req, res, next) => {
       message: 'No token provided'
     });
 });
+
+app.use('/api/user', users);
 
 app.use('/api/routes', routes);
 
