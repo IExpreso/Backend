@@ -33,10 +33,10 @@ app.io = io;
 models.Route.findAll().then(result => {
   result.forEach(route => {
     let listenerNps = io.of(`/api/track/${route.name}`);
-    listenerNps.use(require('socketio-jwt').authorize({
-        secret: secret,
-        handshake: true
-    }));
+    // listenerNps.use(require('socketio-jwt').authorize({
+    //     secret: secret,
+    //     handshake: true
+    // }));
 
     listenerNps.on('connection', socket => {
      let msg = `socket: ${socket.id} connected to Chapultepec`;
