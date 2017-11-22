@@ -1,6 +1,7 @@
 package com.iexpreso.proyectos.turnonoff;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -15,13 +16,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
+import io.socket.client.Ack;
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,28 +36,62 @@ public class MainActivity extends AppCompatActivity {
 
     private Button encender;
     private Button apagar;
+    private Button logoff;
     private TextView coordenates;
+    private TextView enabled;
+    private Spinner rutas;
     private LocationManager locationManager;
     private LocationListener locationListener;
-    private Socket mSocket;
+    private Socket socket;
     private String userName;
+    private String ruta = "Chapultepec";
+    private int changed = 0;
+    private String token;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.userName = LoginActivity.getUserName();
-        Toast.makeText(getApplicationContext(), "Bienvenido " + this.userName, Toast.LENGTH_SHORT).show();
+        enabled = (TextView) findViewById(R.id.textViewEnabled);
+
+        token = getIntent().getStringExtra("token");
+
+        //Log.i("token", token);
 
         try {
-            mSocket = IO.socket("http://localhost");
-        } catch (URISyntaxException e) {}
+            IO.Options opts = new IO.Options();
+            opts.query = "token=" + token;
+            socket = IO.socket("http://10.43.50.250:3000/api/drive/" + ruta, opts);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
 
-        mSocket.connect();
+            @Override
+            public void call(Object... args) {
+                socket.emit("foo", "hi");
+            }
 
+        }).on("event", new Emitter.Listener() {
+
+            @Override
+            public void call(Object... args) {}
+
+        }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
+
+            @Override
+            public void call(Object... args) {}
+
+        }).on(Socket.EVENT_ERROR, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                 Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+        socket.connect();
 
         encender = (Button) findViewById(R.id.ON);
         encender.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +107,46 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 locationManager.removeUpdates(locationListener);
                 Toast.makeText(getApplicationContext(), "Desactivado", Toast.LENGTH_SHORT).show();
-                onDestroy();
+                enabled.setBackgroundResource(R.color.colorOrange);
+                socket.disconnect();
+                enabled.setText("Apagado");
+
+            }
+        });
+
+        rutas = (Spinner) findViewById(R.id.Ruta);
+        rutas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(MainActivity.this, adapterView.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+                ruta = adapterView.getSelectedItem().toString();
+                socket.disconnect();
+
+
+                try {
+                    IO.Options opts = new IO.Options();
+                    opts.query = "token=" + token;
+                    socket = IO.socket("http://10.43.50.250:3000/api/drive/" + ruta, opts);
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+                socket.connect();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        logoff = (Button) findViewById(R.id.LogOff);
+        logoff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                socket.disconnect();
+
             }
         });
 
@@ -77,45 +154,38 @@ public class MainActivity extends AppCompatActivity {
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         locationListener = new LocationListener() {
-            @Override
+
             public void onLocationChanged(Location location) {
-                coordenates.setText("\n " + location.getLatitude() + ", " + location.getLongitude());
+                coordenates.setText("Coordenadas:\n" + location.getLatitude() + ", " + location.getLongitude() + "\n" + changed);
+                Log.i("coordenates", location.getLatitude() + ", " + location.getLongitude());
+                changed++;
+                enabled.setBackgroundResource(R.color.colorGreen);
+                enabled.setText("Encendido");
 
                 JSONObject obj = new JSONObject();
                 try {
-                    obj.put("Nombre", userName);
-                } catch (JSONException e) {
+                    obj.put("lat", location.getLatitude());
+                    obj.put("lng", location.getLongitude());
+                    socket.emit("update", obj);
+                }
+                catch (JSONException e) {
                     e.printStackTrace();
                 }
-                try {
-                    obj.put("Latitud", location.getLatitude());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    obj.put("Longitud", location.getLongitude());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                mSocket.emit("Coordenates", obj);
+
             }
 
-            @Override
             public void onStatusChanged(String s, int i, Bundle bundle) {
-
             }
 
-            @Override
             public void onProviderEnabled(String s) {
-
             }
 
-            @Override
             public void onProviderDisabled(String s) {
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(intent);
             }
         };
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String []{
                     Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.INTERNET
@@ -125,9 +195,9 @@ public class MainActivity extends AppCompatActivity {
             configureButton();
         }
 
+
     }
 
-    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch(requestCode) {
             case 10:
@@ -139,19 +209,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void configureButton() {
         encender.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View view) {
-                locationManager.requestLocationUpdates("gps", 3000, 0, locationListener);
-                Toast.makeText(getApplicationContext(), "Activado", Toast.LENGTH_SHORT).show();
+                coordenates.setText("Esperando...");
+                locationManager.requestLocationUpdates("gps", 500, 0, locationListener);
+                Toast.makeText(getApplicationContext(), "Activando", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-
     public void onDestroy() {
         super.onDestroy();
 
-        mSocket.disconnect();
+        socket.disconnect();
     }
-
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TurnOnOff</string>
+    <string name="app_name">Expreso Tec</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -14,4 +14,13 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string-array name='nombre_rutas'>
+        <item>Chapultepec</item>
+        <item>Cañadas</item>
+        <item>Sur</item>
+        <item>Ciudadela</item>
+        <item>Guadalupe</item>
+        <item>Bugambilias</item>
+        <item>Sur2</item>
+    </string-array>
 </resources>
