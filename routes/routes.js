@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/listing' , (req, res) => {
-  models.Route.findAll().then(routes => {
+  models.Route.findAll({attributes: ['name']}).then(routes => {
     res.status(200).json({routes: routes});
   });
 });
