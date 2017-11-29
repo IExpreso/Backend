@@ -42,7 +42,6 @@ app.use((req, res, next) => {
 	next();
 });
 
-app.use('/', index);
 app.use('/login', login);
 app.use('/signup', signup);
 
@@ -95,6 +94,10 @@ app.use('/api/admin/*', (req, res, next) => {
   });
 });
 app.use('/api/admin', adminRoutes);
+
+app.use(express.static(`${__dirname}/../Frontend/IExpresoFront`, {
+	'index': ['botones.html']
+}));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
