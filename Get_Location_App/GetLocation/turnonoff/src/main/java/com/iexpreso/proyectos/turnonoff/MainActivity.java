@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             IO.Options opts = new IO.Options();
             opts.query = "token=" + token;
-            socket = IO.socket("http://10.43.50.250:3000/api/drive/" + ruta, opts);
+            socket = IO.socket("http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/api/drive/" + ruta, opts);
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
