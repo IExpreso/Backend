@@ -12,13 +12,11 @@ Desktop.ini
 .directory
 *~
 
-
 # npm
 node_modules
 package-lock.json
 *.log*
 *.gz
-
 
 # Coveralls
 coverage
@@ -28,3 +26,6 @@ benchmarks/graphs
 
 # config file
 config/config.json
+
+# certificates
+config/cert/*
