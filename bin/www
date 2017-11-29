@@ -7,9 +7,18 @@ const http = require('http');
 const models = require('../models');
 const redis = require('socket.io-redis');
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
 
 const env = process.env.NODE_ENV || 'development';
 const secret  = require(__dirname + '/../config/config.json')[env]['secret'];
+
+const key = fs.readFileSync(`${__dirname}/../config/cert/private.key`);
+const cert = fs.readFileSync(`${__dirname}/../config/cert/certificate.crt`);
+
+const options = {
+  key: key,
+  cert: cert
+}
 
 /**
  * Get port from environment and store in Express.
@@ -39,8 +48,9 @@ models.Route.findAll().then(result => {
     }));
 
     listenerNps.on('connection', socket => {
-     let msg = `socket: ${socket.id} connected to Chapultepec`;
+      let msg = `client ${socket.id} connected.`;
       console.log(msg);
+      socket.on('disconnect', () => console.log(`client ${socket.id} disconnected`));
     });
 
     console.log('created student socket listener');

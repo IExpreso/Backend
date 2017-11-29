@@ -45,7 +45,11 @@ Now with `npm start` the server should start in port 3000.
 
 - /api/routes (GET)
   + A token is needed in a header with the name "x-access-token".
-  + Returs a list of all bus routes.
+  + Returs a list of all bus routes (with stops).
+
+  - /api/routes/listing (GET)
+    + A token is needed in a header with the name "x-access-token".
+    + Returs a list of all bus routes (names only).
 
 - /api/admin/register (POST)
   + A token with admin privileges is needed in a header with the name "x-access-token".
@@ -99,6 +103,6 @@ driver.emit('update', {lat: lat, lng: lng});
 
 ### TODO
 - [ ] Email address confirmation (extra).
-- [ ] Student subscriptions to bus.
-- [ ] Android push notification when bus is nearby.
+- [ ] Student subscriptions to bus (future).
+- [ ] Android push notification when bus is nearby (future).
 - [ ] Password reset (extra).
