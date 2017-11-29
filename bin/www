@@ -3,7 +3,7 @@
 
 const app = require('../app');
 const debug = require('debug')('express-sequelize');
-const https = require('https');
+const http = require('http');
 const models = require('../models');
 const redis = require('socket.io-redis');
 const jwt = require('jsonwebtoken');
@@ -28,7 +28,7 @@ app.set('port', port);
   /**
    * Create HTTP server.
    */
-const server = https.createServer(options, app);
+const server = http.createServer(app);
 
 // Setup socket connections
 const io = require('socket.io')(server, {
