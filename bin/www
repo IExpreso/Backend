@@ -3,13 +3,22 @@
 
 const app = require('../app');
 const debug = require('debug')('express-sequelize');
-const http = require('http');
+const https = require('https');
 const models = require('../models');
 const redis = require('socket.io-redis');
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
 
 const env = process.env.NODE_ENV || 'development';
 const secret  = require(__dirname + '/../config/config.json')[env]['secret'];
+
+const key = fs.readFileSync(`${__dirname}/../config/cert/private.key`);
+const cert = fs.readFileSync(`${__dirname}/../config/cert/certificate.crt`);
+
+const options = {
+  key: key,
+  cert: cert
+}
 
 /**
  * Get port from environment and store in Express.
@@ -19,7 +28,7 @@ app.set('port', port);
   /**
    * Create HTTP server.
    */
-const server = http.createServer(app);
+const server = https.createServer(options, app);
 
 // Setup socket connections
 const io = require('socket.io')(server, {

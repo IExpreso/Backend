@@ -103,6 +103,6 @@ driver.emit('update', {lat: lat, lng: lng});
 
 ### TODO
 - [ ] Email address confirmation (extra).
-- [ ] Student subscriptions to bus.
-- [ ] Android push notification when bus is nearby.
+- [ ] Student subscriptions to bus (future).
+- [ ] Android push notification when bus is nearby (future).
 - [ ] Password reset (extra).
