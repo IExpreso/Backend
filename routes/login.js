@@ -10,7 +10,6 @@ const env = process.env.NODE_ENV || 'development';
 const secret  = require(__dirname + './../config/config.json')[env]['secret'];
 
 router.post('/', (req, res) => {
-  console.log(req.body.email + ":" + req.body.password);
   models.User.findById(req.body.email).then(user => {
     if (!user) {
       return res.status(401).json({ error: 'invalid user' });
